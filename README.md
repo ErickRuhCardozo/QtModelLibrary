@@ -16,7 +16,7 @@ Since this projects uses reflection/introspection and prepared queries (aiming f
 
 # How To
 To begin with, just create a new class that inherits the Model class:
-```
+```cpp
 class Person : public Model
 {
     Q_OBJECT
@@ -38,7 +38,7 @@ All the persisted properties must be declared as [Q_PROPERTY](https://doc.qt.io/
 
 # Persisting Objects
 The base Model class provides an `insert` method that can be used to persist objects in the database:
-```
+```cpp
 #include <QCoreApplication>
 #include "Person.hpp"
 
@@ -61,7 +61,7 @@ The `insert` method returns whether the Model could or not be saved in the datab
 
 # Loading Objects
 To load objects from the database, create an instance of the desired Model and call `load` on it passing the DBMS id:
-```
+```cpp
 Person me(&app);
 
 if (me.load(1))
@@ -72,13 +72,13 @@ else
 
 # Lazy Loading
 By default, the Model implementation eager loads any related Model property. You can pass a second parameter to the `insert` method to opt-out eager loading:
-```
+```cpp
 Person me(&app);
 me.load(1, false);
 ```
 When you specify to not eager load the related Model properties, when an Model property is encountered when loading a Model from the database, the id of the related Model is added as a [dynamic property](https://doc.qt.io/qt-6/properties.html#dynamic-properties)
 that is used later to Lazy Load the related Model. When you need to load a related Model property from the database, just call the `loadRelated` method specifying the property name of the related Model to load:
-```
+```cpp
 Person me(&app);
 me.load(1, false); // Opt-out from eager load
 
@@ -88,7 +88,7 @@ else
     qCritical() << "The address could not be loaded";
 ```
 By default, the loadRelated method tries to eager load related Model properties when they are found in the loading property. You can opt-out from this behaviour by specifing a second parameter to the `loadRelated` function:
-```
+```cpp
 Person me(&app);
 me.load(1, false);
 // Suppose the Address Model has a related City Model property that we won't need now.
